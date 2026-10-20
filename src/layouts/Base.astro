@@ -1,0 +1,28 @@
+---
+// The same font files Google Fonts serves to the mockup: variable Alegreya and Caveat,
+// static Alegreya 500 italic and Alegreya Sans.
+import "@fontsource-variable/alegreya/wght.css";
+import "@fontsource/alegreya/500-italic.css";
+import "@fontsource/alegreya-sans/400.css";
+import "@fontsource/alegreya-sans/500.css";
+import "@fontsource/alegreya-sans/700.css";
+import "@fontsource-variable/caveat/wght.css";
+import "../styles/global.css";
+import { meta } from "../data/landing";
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <!-- Same value as --color-book-cover in src/styles/tokens.css: meta tags cannot read CSS variables -->
+    <meta name="theme-color" content="#3f5a3a" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="bg-book-cover font-sans text-ink-body lining-nums">
+    <slot />
+  </body>
+</html>

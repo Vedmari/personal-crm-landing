@@ -1,0 +1,22 @@
+---
+// Handwritten mark next to a list item: on the right margin on mobile,
+// before the text on desktop.
+interface Props {
+  tone: "red" | "blue" | "green";
+}
+
+const toneClass = {
+  red: "text-ink-red",
+  blue: "text-ink-blue",
+  green: "text-book-cover",
+}[Astro.props.tone];
+---
+
+<span
+  class:list={[
+    "absolute top-0 -right-56 w-row flex-none text-center font-hand text-mark font-bold",
+    "md:static md:text-mark-md",
+    toneClass,
+  ]}
+  aria-hidden="true"><slot /></span
+>

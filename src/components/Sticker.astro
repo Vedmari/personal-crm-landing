@@ -1,0 +1,20 @@
+---
+// Block 5: sticky note with the final call to action. The 32px rhythm does not apply here.
+import AccentedText from "./AccentedText.astro";
+import Cta from "./Cta.astro";
+import { callToAction } from "../data/landing";
+---
+
+<section
+  class="mx-34 mt-8 flex rotate-2 flex-col gap-14 bg-sticker paper-sticker px-24 pt-30 pb-26 shadow-sticker md:mx-auto md:mt-16 md:w-full md:max-w-560 md:gap-18 md:px-44 md:pt-44 md:pb-40 md:shadow-sticker-md"
+>
+  <h2 class="font-serif text-sticker-title font-medium text-pretty text-ink md:text-sticker-title-md">
+    <AccentedText text={callToAction.title} />
+  </h2>
+  <p
+    class="font-hand text-sticker-note font-bold text-pretty text-ink-blue md:text-sticker-note-md"
+  >
+    {callToAction.note}
+  </p>
+  <Cta class="mt-8 md:mt-12" />
+</section>

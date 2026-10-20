@@ -1,0 +1,29 @@
+---
+// Block 1: diary page pressed to the left edge, with a bookmark ribbon.
+import AccentedText from "./AccentedText.astro";
+import Cta from "./Cta.astro";
+import Logo from "./Logo.astro";
+import { hero } from "../data/landing";
+---
+
+<section class="pt-14 pr-14 md:pt-28 md:pr-hero-wrap-r">
+  <div
+    class="relative flex flex-col rounded-r-hero bg-paper paper-diary pt-42 pr-72 pb-38 pl-26 shadow-hero md:rounded-r-hero-md md:pr-hero-r md:pb-70 md:pl-hero-l md:shadow-hero-md"
+  >
+    <div
+      class="absolute -top-4 right-20 h-118 w-18 bg-ink-red ribbon-shape inset-shadow-ribbon md:-top-6 md:right-ribbon-r md:h-180 md:w-24 md:inset-shadow-ribbon-md"
+      aria-hidden="true"
+    >
+    </div>
+    <Logo />
+    <h1
+      class="relative -top-7 mt-row font-serif text-h1 font-medium text-pretty text-ink md:-top-14 md:mt-96 md:max-w-900 md:text-h1-md md:text-balance"
+    >
+      <AccentedText text={hero.title} />
+    </h1>
+    <p class="mt-row font-sans text-lead text-pretty text-ink-body md:max-w-640 md:text-lead-md">
+      {hero.subtitle}
+    </p>
+    <Cta class="mt-38 mb-6 md:mt-70 md:mb-0" />
+  </div>
+</section>

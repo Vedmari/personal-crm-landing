@@ -1,0 +1,21 @@
+---
+import Base from "../layouts/Base.astro";
+import Benefits from "../components/Benefits.astro";
+import Hero from "../components/Hero.astro";
+import Problem from "../components/Problem.astro";
+import Solution from "../components/Solution.astro";
+import Sticker from "../components/Sticker.astro";
+---
+
+<Base>
+  <!-- Notebook pages laid out on the green cover; overflow is clipped because the pages are rotated -->
+  <main
+    class="mx-auto flex w-full max-w-1440 flex-col gap-40 overflow-hidden pb-56 md:gap-80 md:pb-120"
+  >
+    <Hero />
+    <Problem />
+    <Solution />
+    <Benefits />
+    <Sticker />
+  </main>
+</Base>

@@ -1,0 +1,20 @@
+---
+// Date line and heading that open sheets 2–4.
+// The heading is lifted so its baseline sits on the ruled line.
+import AccentedText from "./AccentedText.astro";
+import type { AccentedText as AccentedTextValue } from "../data/landing";
+
+interface Props {
+  date: string;
+  title: AccentedTextValue;
+}
+
+const { date, title } = Astro.props;
+---
+
+<p class="font-sans text-date font-medium text-ink-muted uppercase md:text-date-md">{date}</p>
+<h2
+  class="relative -top-7 mt-row font-serif text-h2 font-medium text-pretty text-ink md:-top-9 md:text-h2-md"
+>
+  <AccentedText text={title} />
+</h2>

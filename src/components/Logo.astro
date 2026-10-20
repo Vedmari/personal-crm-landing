@@ -1,0 +1,17 @@
+---
+import { brand } from "../data/landing";
+---
+
+<div class="flex h-row items-baseline gap-8 md:gap-10">
+  <!-- Quatrefoil mark: four circles around a square, built like the mockup so edges render the same -->
+  <span class="relative top-3 size-20 flex-none md:size-22" aria-hidden="true">
+    <span class="absolute top-0 left-1/4 size-1/2 rounded-full bg-book-cover"></span>
+    <span class="absolute top-1/2 left-1/4 size-1/2 rounded-full bg-book-cover"></span>
+    <span class="absolute top-1/4 left-0 size-1/2 rounded-full bg-book-cover"></span>
+    <span class="absolute top-1/4 left-1/2 size-1/2 rounded-full bg-book-cover"></span>
+    <span class="absolute top-1/4 left-1/4 size-1/2 bg-book-cover"></span>
+  </span>
+  <span class="font-serif text-logo font-bold whitespace-nowrap text-ink-strong md:text-logo-md">
+    {brand}
+  </span>
+</div>

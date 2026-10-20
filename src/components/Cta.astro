@@ -1,0 +1,28 @@
+---
+import { APP_URL } from "../config";
+import { ctaLabel } from "../data/landing";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<!-- Full-width pill on mobile, compact on desktop -->
+<a
+  href={APP_URL}
+  class:list={[
+    "flex h-52 items-center justify-between rounded-pill bg-ink-strong pr-10 pl-22",
+    "font-sans text-cta font-bold text-btn-text transition-[background-color] duration-150 hover:bg-book-cover",
+    "focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-btn-dot",
+    "md:justify-start md:gap-28 md:self-start md:pl-26 md:text-cta-md",
+    className,
+  ]}
+>
+  {ctaLabel}
+  <span
+    class="flex size-36 items-center justify-center rounded-full bg-btn-dot text-arrow text-ink-strong"
+    aria-hidden="true">→</span
+  >
+</a>

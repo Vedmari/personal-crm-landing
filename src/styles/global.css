@@ -1,0 +1,227 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/*
+ * Paper textures. Each sheet is a stack of background layers:
+ * grain tile, optional spine shade, red margin line and blue rules.
+ * Desktop values switch through the --paper-* variables in tokens.css.
+ */
+
+/* Diary page (block 1): spine on the left, margin line on the right, 32px rules */
+@utility paper-diary {
+  background-image:
+    var(--paper-grain),
+    linear-gradient(
+      90deg,
+      var(--color-spine) 0,
+      var(--color-spine-fade) var(--paper-spine-fade),
+      transparent var(--paper-spine-end)
+    ),
+    linear-gradient(
+      270deg,
+      transparent var(--paper-margin-x-hero),
+      var(--color-margin-line) var(--paper-margin-x-hero),
+      var(--color-margin-line) calc(var(--paper-margin-x-hero) + 1px),
+      transparent calc(var(--paper-margin-x-hero) + 1px)
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 calc(var(--paper-rule-step) - 1px),
+      var(--color-rule) calc(var(--paper-rule-step) - 1px) var(--paper-rule-step)
+    );
+  background-size:
+    var(--paper-grain-size) var(--paper-grain-size),
+    100% 100%,
+    100% 100%,
+    100% var(--paper-rule-step);
+}
+
+/* Lined notebook page (blocks 2 and 4): margin line on the right, 32px rules */
+@utility paper-lined {
+  background-image:
+    var(--paper-grain),
+    linear-gradient(
+      270deg,
+      transparent var(--paper-margin-x),
+      var(--color-margin-line) var(--paper-margin-x),
+      var(--color-margin-line) calc(var(--paper-margin-x) + 1px),
+      transparent calc(var(--paper-margin-x) + 1px)
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 calc(var(--paper-rule-step) - 1px),
+      var(--color-rule) calc(var(--paper-rule-step) - 1px) var(--paper-rule-step)
+    );
+  background-size:
+    var(--paper-grain-size) var(--paper-grain-size),
+    100% 100%,
+    100% var(--paper-rule-step);
+}
+
+/* Squared page (block 3): 16px grid, no margin line */
+@utility paper-grid {
+  background-image:
+    var(--paper-grain),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 calc(var(--paper-grid-step) - 1px),
+      var(--color-grid-rule) calc(var(--paper-grid-step) - 1px) var(--paper-grid-step)
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 calc(var(--paper-grid-step) - 1px),
+      var(--color-grid-rule) calc(var(--paper-grid-step) - 1px) var(--paper-grid-step)
+    );
+  background-size:
+    var(--paper-grain-size) var(--paper-grain-size),
+    100% var(--paper-grid-step),
+    var(--paper-grid-step) 100%;
+  background-position:
+    0 0,
+    0 0,
+    var(--paper-grid-shift) 0;
+}
+
+/* Sticky note (block 5): grain and a light shade at the top */
+@utility paper-sticker {
+  background-image:
+    var(--paper-grain),
+    linear-gradient(180deg, var(--color-sticker-shade), transparent 22%);
+  background-size:
+    var(--paper-grain-size) var(--paper-grain-size),
+    100% 100%;
+}
+
+/* Bookmark ribbon with a swallowtail end */
+@utility ribbon-shape {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 88%, 0 100%);
+}
+
+/* Holes left by spiral rings along the left edge, one per row */
+@utility ring-holes {
+  --ring-holes: radial-gradient(
+      circle at 0 calc(var(--paper-rule-step) / 2),
+      transparent var(--paper-ring-hole),
+      #000 calc(var(--paper-ring-hole) + 0.5px)
+    )
+    0 0 / 100% var(--paper-rule-step) repeat-y;
+  -webkit-mask: var(--ring-holes);
+  mask: var(--ring-holes);
+}
+
+/* Perforation along the top edge */
+@utility perforation-top {
+  --perforation-top: radial-gradient(
+      circle at calc(var(--paper-perforation-step) / 2) 0,
+      transparent var(--paper-perforation-hole),
+      #000 calc(var(--paper-perforation-hole) + 0.5px)
+    )
+    0 0 / var(--paper-perforation-step) 100% repeat-x;
+  -webkit-mask: var(--perforation-top);
+  mask: var(--perforation-top);
+}
+
+/* Torn-off bottom edge (block 2) */
+@utility torn-bottom {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 6px),
+    94% calc(100% - 1px),
+    87% calc(100% - 8px),
+    80% calc(100% - 3px),
+    72% calc(100% - 9px),
+    63% calc(100% - 2px),
+    55% calc(100% - 7px),
+    47% 100%,
+    38% calc(100% - 6px),
+    30% calc(100% - 1px),
+    21% calc(100% - 8px),
+    13% calc(100% - 2px),
+    6% calc(100% - 7px),
+    0 calc(100% - 3px)
+  );
+
+  @variant md {
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - 6px),
+      96% calc(100% - 1px),
+      92% calc(100% - 8px),
+      87% calc(100% - 3px),
+      82% calc(100% - 9px),
+      76% calc(100% - 2px),
+      71% calc(100% - 7px),
+      65% 100%,
+      59% calc(100% - 6px),
+      53% calc(100% - 1px),
+      47% calc(100% - 8px),
+      41% calc(100% - 2px),
+      35% calc(100% - 7px),
+      29% calc(100% - 1px),
+      23% calc(100% - 8px),
+      17% calc(100% - 3px),
+      11% calc(100% - 7px),
+      5% calc(100% - 1px),
+      0 calc(100% - 5px)
+    );
+  }
+}
+
+/* Torn-off top edge (block 3) */
+@utility torn-top {
+  clip-path: polygon(
+    0 7px,
+    5% 2px,
+    11% 8px,
+    18% 1px,
+    26% 6px,
+    33% 0,
+    41% 7px,
+    49% 2px,
+    57% 9px,
+    64% 3px,
+    72% 8px,
+    79% 1px,
+    86% 6px,
+    93% 2px,
+    100% 7px,
+    100% 100%,
+    0 100%
+  );
+
+  @variant md {
+    clip-path: polygon(
+      0 7px,
+      4% 2px,
+      8% 8px,
+      13% 1px,
+      18% 6px,
+      23% 0,
+      28% 7px,
+      33% 2px,
+      38% 9px,
+      43% 3px,
+      48% 8px,
+      53% 1px,
+      58% 6px,
+      63% 2px,
+      68% 8px,
+      73% 1px,
+      78% 7px,
+      83% 2px,
+      88% 8px,
+      93% 3px,
+      97% 7px,
+      100% 2px,
+      100% 100%,
+      0 100%
+    );
+  }
+}
+
+/* Lists that become two columns on desktop and collapse back when narrow */
+@utility notes-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}

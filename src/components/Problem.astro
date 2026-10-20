@@ -1,0 +1,28 @@
+---
+// Block 2: lined page torn out of a spiral notebook.
+// On phones the page sits 18px from the edge (6px in the mockup) so the ring holes
+// read as holes in the paper, not as dark spots on the screen edge. Agreed on 2026-10-20.
+import MarginMark from "./MarginMark.astro";
+import SheetHeader from "./SheetHeader.astro";
+import { problem } from "../data/landing";
+---
+
+<section
+  class="mr-14 ml-18 -rotate-[1.2deg] drop-shadow-sheet md:mr-problem-r md:ml-problem-l md:max-w-900 md:drop-shadow-sheet-md"
+>
+  <div
+    class="relative flex flex-col bg-paper paper-lined ring-holes torn-bottom pt-42 pr-72 pb-46 pl-30 md:pr-sheet-r md:pb-54 md:pl-sheet-l"
+  >
+    <SheetHeader date={problem.date} title={problem.title} />
+    <ul class="mt-row flex flex-col gap-row md:grid md:notes-grid md:gap-x-40">
+      {
+        problem.items.map((item) => (
+          <li class="relative md:flex md:gap-8">
+            <MarginMark tone="red">?</MarginMark>
+            <p class="font-sans text-body text-pretty text-ink-body md:text-body-md">{item}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,4 @@
+allowBuilds:
+  esbuild: true
+# Install only package versions published at least 14 days ago (in minutes).
+minimumReleaseAge: 20160

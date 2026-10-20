@@ -1,0 +1,11 @@
+---
+import type { AccentedText } from "../data/landing";
+
+interface Props {
+  text: AccentedText;
+}
+
+const { before, accent, after } = Astro.props.text;
+---
+
+{before}{accent && <i class="font-serif-italic text-book-cover">{accent}</i>}{after}

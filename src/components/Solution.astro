@@ -1,0 +1,36 @@
+---
+// Block 3: squared page with a torn top edge, shifted to the right on desktop.
+import MarginMark from "./MarginMark.astro";
+import SheetHeader from "./SheetHeader.astro";
+import { solution } from "../data/landing";
+---
+
+<section
+  class="mr-6 ml-14 rotate-[0.9deg] drop-shadow-sheet md:mr-solution-r md:ml-auto md:max-w-1000 md:rotate-[0.8deg] md:drop-shadow-sheet-md"
+>
+  <div
+    class="relative flex flex-col bg-paper-grid paper-grid torn-top pt-42 pr-66 pb-38 pl-26 md:px-grid-x md:pb-54"
+  >
+    <SheetHeader date={solution.date} title={solution.title} />
+    <p
+      class="mt-row font-sans text-body text-pretty text-ink-body md:mt-16 md:max-w-620 md:text-intro-md"
+    >
+      {solution.subtitle}
+    </p>
+    <ol class="mt-row flex flex-col gap-row md:grid md:notes-grid md:gap-x-48">
+      {
+        solution.features.map((feature, index) => (
+          <li class="relative md:flex md:gap-8">
+            <MarginMark tone="blue">{index + 1}</MarginMark>
+            <div class="flex flex-col">
+              <h3 class="relative -top-2 font-serif text-feature font-bold text-ink-strong md:text-feature-md">
+                {feature.title}
+              </h3>
+              <p class="font-sans text-body text-pretty text-ink-body md:text-body-md">{feature.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
