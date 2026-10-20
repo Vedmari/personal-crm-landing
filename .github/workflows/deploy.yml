@@ -71,7 +71,8 @@ jobs:
       # On the server this key runs rrsync locked to the landing folder, so "server:" is that folder.
       # --delay-updates and --delete-delay swap the files in at the very end of the transfer.
       - name: Upload dist/ to the server
-        run: rsync -rptz --chmod=D755,F644 --delete-delay --delay-updates --stats dist/ server:
+        run: |
+          rsync -rptz --chmod=D755,F644 --delete-delay --delay-updates --stats dist/ server:
 
       - name: Check the live site
         run: |
