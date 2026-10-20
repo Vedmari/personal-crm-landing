@@ -1,0 +1,86 @@
+# Push to main -> build the static site into dist/ -> rsync it into the landing folder
+# on the server (nginx serves that folder) -> check the home page answers 200 with this commit.
+#
+# Repository settings used here:
+#   secrets.DEPLOY_SSH_KEY     - private SSH key; the server pins it to rsync into the landing folder only
+#   vars.DEPLOY_HOST           - server IP address
+#   vars.DEPLOY_USER           - user on the server
+#   vars.DEPLOY_KNOWN_HOSTS    - server host key, so SSH never trusts an unknown host
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# One deploy at a time: a newer push waits for the running deploy instead of cutting it off.
+concurrency:
+  group: deploy-landing
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  SITE_URL: https://lichnaya-crm.ru
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      # The pnpm version comes from "packageManager" in package.json.
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build
+
+      # Shows which commit is live: $SITE_URL/version.txt
+      - name: Stamp the version
+        run: printf '%s\n' "$GITHUB_SHA" > dist/version.txt
+
+      - name: Set up SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ vars.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+        run: |
+          install -d -m 700 ~/.ssh
+          (umask 077 && printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key)
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<EOF
+          Host server
+            HostName $DEPLOY_HOST
+            User $DEPLOY_USER
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+            ConnectTimeout 60
+            ServerAliveInterval 30
+          EOF
+
+      # On the server this key runs rrsync locked to the landing folder, so "server:" is that folder.
+      # --delay-updates and --delete-delay swap the files in at the very end of the transfer.
+      - name: Upload dist/ to the server
+        run: rsync -rptz --chmod=D755,F644 --delete-delay --delay-updates --stats dist/ server:
+
+      - name: Check the live site
+        run: |
+          for attempt in 1 2 3 4 5 6; do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "$SITE_URL/" || true)
+            live=$(curl -sS --max-time 20 "$SITE_URL/version.txt" || true)
+            echo "attempt $attempt: home page $code, live version ${live:-none}"
+            if [ "$code" = 200 ] && [ "$live" = "$GITHUB_SHA" ]; then exit 0; fi
+            sleep 10
+          done
+          echo "::error::$SITE_URL does not answer 200 with version $GITHUB_SHA"
+          exit 1
