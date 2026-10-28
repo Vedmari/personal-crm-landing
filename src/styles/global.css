@@ -225,3 +225,27 @@
 @utility notes-grid {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
+
+/*
+ * The baize the notebook lies on, the same as in the app
+ * (personal-crm/src/app/globals.css): fibres and a gilt diamond lattice with
+ * the logo's clover. Fixed layers behind the page, not background-attachment:
+ * fixed, which stutters on iPhones.
+ */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+body::before {
+  background: var(--baize-fibres) 0 0 / var(--baize-fibres-size);
+}
+
+body::after {
+  background-color: var(--color-gilt);
+  mask: var(--baize-lattice) 0 0 / var(--baize-lattice-size);
+}
